@@ -1,14 +1,24 @@
 import React, { useEffect,useState } from 'react'
 
+
+
+
+const api = {
+  key: "56a9c1b59e94a977720820c838c997b7",
+  base: "https://api.openweathermap.org/data/2.5/",
+  units:"metric",
+
+}
+
 const WeatherApp = () => {
   const [weatherData , setWeatherData] = useState({})
-  const [cityName , setCityname] = useState()
-  const [searchCityName , setSearchCityName] = useState('')
+  const [cityName , setCityname] = useState("")
+  const [searchCityName , setSearchCityName] = useState("")
   
   
   
   useEffect(()=>{
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${searchCityName}&appid=56a9c1b59e94a977720820c838c997b7&units=metric`)
+      fetch(`${api.base}forecast?q=${searchCityName}&appid=${api.key}&units=${api.units}&cnt=3`)
     .then((res)=>res.json())
     .then((result)=>{
       setWeatherData(result)
@@ -16,13 +26,20 @@ const WeatherApp = () => {
         console.log(err)
     })
 
-  },[cityName])
+  },[searchCityName])
   console.log(weatherData)
-  //Search Function 
-
-    const searchCity = () =>{
+    
+  // console.log(weatherData)
+    //Search Function 
+    const searchCity = (e) =>{
       setSearchCityName(cityName)
+      // console.log("City Name",weatherData.city.name)
+      // console.log("City Temp",weatherData.list.main)
+
+
     }
+
+
     return (
     <div className='Main'>
       <h1>Weather App</h1>        
@@ -38,6 +55,16 @@ const WeatherApp = () => {
       </button>
 
       </div>
+
+      {/* <li>City : {weatherData && weatherData.name}</li>
+      <li>Temp : {weatherData && weatherData.main && weatherData.main.temp}</li>
+      <li>
+        {weatherData &&
+        weatherData.weather &&
+        weatherData.weather[0] &&
+        weatherData.weather[0].main}
+      </li> */}
+      {/* <p>{weatherData && weatherData.list[main.temp]}</p> */}
     </div>
   )
 }
