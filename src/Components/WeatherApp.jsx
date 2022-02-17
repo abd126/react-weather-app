@@ -42,7 +42,7 @@ const WeatherApp = () => {
 
     return (
     <div className='Main'>
-      <h1>Weather App</h1>        
+      <h1>Weather Application</h1>        
       <div className='d-flex justify-content-center my-5'>
         <input type="text" 
         value={cityName}
