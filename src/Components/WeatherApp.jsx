@@ -62,7 +62,8 @@ const WeatherApp = () => {
         console.log(err)
       })
 
-  }, [searchCityName,currentLocation])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchCityName, currentLocation])
   console.log(currentLocation)
   //Search Function 
   const searchCity = (e) => {
