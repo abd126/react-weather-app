@@ -35,11 +35,6 @@ const WeatherApp = () => {
   
   
   
-  
-  
-  
-  
-
   useEffect(() => {
     const api = {
       key: "56a9c1b59e94a977720820c838c997b7",
@@ -65,6 +60,9 @@ const WeatherApp = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchCityName, currentLocation])
   console.log(currentLocation)
+ 
+ 
+ 
   //Search Function 
   const searchCity = (e) => {
     setSearchCityName(cityName)
