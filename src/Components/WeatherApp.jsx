@@ -5,22 +5,56 @@ import {ImLocation} from 'react-icons/im'
 
 
 
-const api = {
-  key: "56a9c1b59e94a977720820c838c997b7",
-  base: "https://api.openweathermap.org/data/2.5/",
-  units: "metric",
 
-}
 
 const WeatherApp = () => {
   const [weatherData, setWeatherData] = useState({})
-  const [cityName, setCityname] = useState("")
-  const [searchCityName, setSearchCityName] = useState("Karachi")
+  const [cityName, setCityname] = useState("London")
+  const [searchCityName, setSearchCityName] = useState("")
+  const [currentLocation ,setCurrentLocation] = useState({})
 
+  // Set Current Location
 
+  useEffect(()=>{
+    const getLocation = () =>{
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(
+          (posotion)=>{
+            setCurrentLocation(posotion)
+            setCityname("")
+          },
+          (error)=>{
+            console.log("error",error)
+            setSearchCityName(cityName)
+          }
+        )
+      }
+    }
+    getLocation()
+  },[])
+  
+  
+  
+  
+  
+  
+  
 
   useEffect(() => {
-    fetch(`${api.base}weather?q=${searchCityName}&appid=${api.key}&units=${api.units}&cnt=3`)
+    const api = {
+      key: "56a9c1b59e94a977720820c838c997b7",
+      base: "https://api.openweathermap.org/data/2.5/",
+      units: "metric",
+    
+    }
+    let searchQuery = currentLocation && currentLocation.coords
+    ?`lat=${currentLocation.coords.latitude}&lon=${currentLocation.coords.longitude}`
+    :`q=${searchCityName ? searchCityName : cityName}`
+
+
+
+    
+    fetch(`${api.base}weather?${searchQuery}&appid=${api.key}&units=${api.units}&cnt=3`)
       .then((res) => res.json())
       .then((result) => {
         setWeatherData(result)
@@ -28,8 +62,8 @@ const WeatherApp = () => {
         console.log(err)
       })
 
-  }, [searchCityName])
-  console.log(weatherData)
+  }, [searchCityName,currentLocation])
+  console.log(currentLocation)
   //Search Function 
   const searchCity = (e) => {
     setSearchCityName(cityName)
@@ -47,7 +81,7 @@ const WeatherApp = () => {
             value={cityName}
             placeholder="Search City Name"
             onChange={(e) => setCityname(e.target.value)}
-            className="w-75"
+            className="w-50"
           />
 
           <button className='btn btn-info'
